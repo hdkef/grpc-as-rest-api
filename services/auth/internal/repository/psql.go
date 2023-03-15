@@ -7,6 +7,8 @@ import (
 	"grpcrest/services/auth/domain/entity"
 	domain "grpcrest/services/auth/domain/repository"
 	cfg "grpcrest/services/auth/internal/config"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -81,7 +83,13 @@ func (a *AuthRepo) CreateAuth(auth *entity.Auth) error {
 
 // DeleteAuth implements repository.AuthRepository
 func (a *AuthRepo) DeleteAuth(auth *entity.Auth) error {
-	res, err := a.sql.Exec(fmt.Sprintf("DELETE FROM %s.auth WHERE user_id = $1", a.cfg.DBSchema), auth.UserID)
+	//convert to uuid
+	userid, err := uuid.Parse(auth.UserID)
+	if err != nil {
+		return err
+	}
+
+	res, err := a.sql.Exec(fmt.Sprintf("DELETE FROM %s.auth WHERE text(user_id) = $1", a.cfg.DBSchema), userid)
 	if err != nil {
 		return err
 	}

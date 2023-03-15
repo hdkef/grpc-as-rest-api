@@ -15,7 +15,7 @@ func (s *server) DeleteAuth(ctx context.Context, auth *authpb.DeleteAuthRequest)
 		}, err
 	}
 	//execute usecase
-	err = s.authUC.CreateAuth(d)
+	err = s.authUC.DeleteAuth(d)
 	if err != nil {
 		return &authpb.DeleteAuthResponse{
 			Message: err.Error(),

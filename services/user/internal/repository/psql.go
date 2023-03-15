@@ -7,6 +7,8 @@ import (
 	"grpcrest/services/user/domain/entity"
 	domain "grpcrest/services/user/domain/repository"
 	"grpcrest/services/user/internal/config"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -36,7 +38,12 @@ func (u *UserRepository) Create(d *entity.User) error {
 
 // Delete implements repository.UserRepository
 func (u *UserRepository) Delete(d *entity.User) error {
-	res, err := u.sql.Exec(fmt.Sprintf("DELETE %s.users WHERE id = $1", u.cfg.DBSchema), d.ID)
+	//convert to uuid
+	id, err := uuid.Parse(d.ID)
+	if err != nil {
+		return err
+	}
+	res, err := u.sql.Exec(fmt.Sprintf("DELETE FROM %s.users WHERE text(id) = $1", u.cfg.DBSchema), id)
 	if err != nil {
 		return err
 	}

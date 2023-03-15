@@ -43,6 +43,8 @@ func main() {
 	//register grpc server
 	grpcserver.CreateUserHandler(s, cfg, db, *authClient)
 	grpcserver.GetAllUserHandler(s, cfg, db, *authClient)
+	grpcserver.DeleteUserHandler(s, cfg, db, *authClient)
+	grpcserver.UpdateUserHandler(s, cfg, db, *authClient)
 
 	//serve
 	s.Serve(lis)
