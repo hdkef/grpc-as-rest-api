@@ -20,7 +20,7 @@ type UserRepository struct {
 
 // Create implements repository.UserRepository
 func (u *UserRepository) Create(d *entity.User) error {
-	res, err := u.sql.Exec(fmt.Sprintf("INSERT INTO %s.users(id,name,email,address) VALUES ($1,$2,$3)", u.cfg.DBSchema), d.ID, d.Name, d.Email, d.Address)
+	res, err := u.sql.Exec(fmt.Sprintf("INSERT INTO %s.users(id,name,email,address) VALUES ($1,$2,$3,$4)", u.cfg.DBSchema), d.ID, d.Name, d.Email, d.Address)
 	if err != nil {
 		return err
 	}
@@ -51,9 +51,10 @@ func (u *UserRepository) Delete(d *entity.User) error {
 }
 
 // GetAll implements repository.UserRepository
-func (u *UserRepository) GetAll(lastID *int, limit *int) ([]entity.User, error) {
+func (u *UserRepository) GetAll(page *int, limit *int) ([]entity.User, error) {
 	var data []entity.User
-	rows, err := u.sql.Query(fmt.Sprintf("SELECT id,name,email,address FROM %s.users WHERE id >$1 LIMIT $2", u.cfg.DBSchema), *lastID, *limit)
+	offset := (*page - 1) * *limit
+	rows, err := u.sql.Query(fmt.Sprintf("SELECT text(id),name,email,address FROM %s.users OFFSET $1 LIMIT $2", u.cfg.DBSchema), offset, *limit)
 	if err != nil {
 		return nil, err
 	}

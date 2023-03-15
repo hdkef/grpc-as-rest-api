@@ -9,7 +9,10 @@ import (
 
 func (s *server) GetAllUser(ctx context.Context, p *userpb.GetAllUserRequest) (*userpb.GetAllUserResponse, error) {
 	//get last id and limit
-	lastid, limit := request.GetLastIDandLimit(p)
+	lastid, limit, err := request.GetLastIDandLimit(p)
+	if err != nil {
+		return nil, err
+	}
 
 	//execute usecase
 	data, err := s.userUC.GetAll(&lastid, &limit)

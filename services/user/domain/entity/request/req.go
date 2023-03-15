@@ -1,14 +1,23 @@
 package request
 
 import (
+	"errors"
 	userpb "grpcrest/proto/_generated/user"
 	"grpcrest/services/user/domain/entity"
 )
 
-func GetLastIDandLimit(r *userpb.GetAllUserRequest) (lastid int, limit int) {
-	var lastid32 int32 = r.GetLastId()
+const (
+	errpagelimit = "please specify page and limit query params"
+)
+
+func GetLastIDandLimit(r *userpb.GetAllUserRequest) (page int, limit int, err error) {
+	var page32 int32 = r.GetPage()
 	var limit32 int32 = r.GetLimit()
-	lastid = int(lastid32)
+	if page32 == 0 || limit32 == 0 {
+		err = errors.New(errpagelimit)
+		return
+	}
+	page = int(page32)
 	limit = int(limit32)
 	return
 }

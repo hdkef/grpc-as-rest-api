@@ -65,7 +65,7 @@ func (u *AuthRepo) dynamicUpdate(userID string, f ...fieldUpdate) error {
 
 // CreateAuth implements repository.AuthRepository
 func (a *AuthRepo) CreateAuth(auth *entity.Auth) error {
-	res, err := a.sql.Exec(fmt.Sprintf("INSERT INTO %s.auth(id,user_id,email,password) VALUES($1,$2,$3)", a.cfg.DBSchema), auth.ID, auth.UserID, auth.Email, auth.Password)
+	res, err := a.sql.Exec(fmt.Sprintf("INSERT INTO %s.auth(id,user_id,email,password) VALUES($1,$2,$3,$4)", a.cfg.DBSchema), auth.ID, auth.UserID, auth.Email, auth.Password)
 	if err != nil {
 		return err
 	}

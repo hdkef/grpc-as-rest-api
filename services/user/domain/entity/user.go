@@ -21,7 +21,7 @@ type User struct {
 }
 
 func (u *User) SetID(id string) error {
-	if id != "" {
+	if id == "" {
 		return errors.New(errEmptyID)
 	}
 	u.ID = id
@@ -29,7 +29,7 @@ func (u *User) SetID(id string) error {
 }
 
 func (u *User) SetEmail(email string) error {
-	if email != "" {
+	if email == "" {
 		return errors.New(errEmptyEmail)
 	}
 	u.Email = email
@@ -37,7 +37,7 @@ func (u *User) SetEmail(email string) error {
 }
 
 func (u *User) SetAddress(address string) error {
-	if address != "" {
+	if address == "" {
 		return errors.New(errEmptyAddress)
 	}
 	u.Address = address
@@ -45,7 +45,7 @@ func (u *User) SetAddress(address string) error {
 }
 
 func (u *User) SetName(name string) error {
-	if name != "" {
+	if name == "" {
 		return errors.New(errEmptyName)
 	}
 	u.Name = name
@@ -53,7 +53,7 @@ func (u *User) SetName(name string) error {
 }
 
 func (u *User) SetPassword(pass string) error {
-	if pass != "" {
+	if pass == "" {
 		return errors.New(errEmptyPassword)
 	}
 

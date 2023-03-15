@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "gateway service",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "./services/api/cmd/main.go",
+            "env":{
+                "APP_PORT":"7000",
+                "GRPC_PORT":"7001",
+                "AUTH_GRPC_PORT":"8080",
+                "USER_GRPC_PORT":"8081"
+            }
+        },
+        {
             "name": "Auth service",
             "type": "go",
             "request": "launch",
@@ -28,7 +41,7 @@
             "program": "./services/user/cmd/main.go",
             "env":{
                 "APP_PORT":"8081",
-                "DB_SCHEMA":"auth",
+                "DB_SCHEMA":"users",
                 "DB_HOST":"localhost",
                 "DB_PORT":"5432",
                 "DB_NAME":"project",

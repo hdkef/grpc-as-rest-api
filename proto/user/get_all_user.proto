@@ -6,7 +6,7 @@ option go_package = "grpcrest/proto;user";
 import "google/api/annotations.proto";
 
 message GetAllUserRequest {
-    int32 lastId = 1;
+    int32 page = 1;
     int32 limit = 2;
 }
 

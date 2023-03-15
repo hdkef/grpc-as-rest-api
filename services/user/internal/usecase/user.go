@@ -34,6 +34,9 @@ func (u *UserArtifact) Create(d *entity.User) error {
 		return err
 	}
 
+	//set user uuid
+	d.ID = userid
+
 	//create user
 	err = u.userrepo.Create(d)
 	if err != nil {
@@ -44,7 +47,22 @@ func (u *UserArtifact) Create(d *entity.User) error {
 
 // Delete implements usecase.UserUsecase
 func (u *UserArtifact) Delete(d *entity.User) error {
-	return u.userrepo.Delete(d)
+	//delete auth w/ grpc client
+	a := authpb.DeleteAuthRequest{
+		UserId: d.ID,
+	}
+
+	_, err := u.authgrpcclient.Delete.DeleteAuth(context.Background(), &a)
+	if err != nil {
+		return err
+	}
+
+	//delete user
+	err = u.userrepo.Delete(d)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // GetAll implements usecase.UserUsecase

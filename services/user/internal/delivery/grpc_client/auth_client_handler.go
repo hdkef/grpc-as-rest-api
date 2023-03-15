@@ -8,6 +8,7 @@ import (
 
 type AuthGRPCClient struct {
 	Create authpb.CreateAuthServiceClient
+	Delete authpb.DeleteAuthServiceClient
 	Update authpb.UpdateAuthServiceClient
 }
 
@@ -16,7 +17,9 @@ func AuthGRPCClientHandler(conn *grpc.ClientConn) (*AuthGRPCClient, error) {
 	//bind new client grpc to struct
 	createClient := authpb.NewCreateAuthServiceClient(conn)
 	updateClient := authpb.NewUpdateAuthServiceClient(conn)
+	deleteClient := authpb.NewDeleteAuthServiceClient(conn)
 	c.Create = createClient
 	c.Update = updateClient
+	c.Delete = deleteClient
 	return &c, nil
 }
