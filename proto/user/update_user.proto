@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+
+option go_package = "grpcrest/proto;user";
+
+import "google/api/annotations.proto";
+
+message UpdateUserRequest {
+    string userId = 1;
+    string email = 2;
+    string password = 3;
+    string name = 4;
+    string address = 5;
+}
+
+message UpdateUserResponse {
+    string message = 1;
+}
+
+service UpdateUserService {
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse){
+        option (google.api.http) = {
+            put: "/v1/users/{userId}"
+            body: "*"
+        };
+    };
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+
+option go_package = "grpcrest/proto;user";
+
+import "google/api/annotations.proto";
+
+message DeleteUserRequest {
+    string userId = 1;
+}
+
+message DeleteUserResponse {
+    string message = 1;
+}
+
+service DeleteUserService {
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse){
+        option (google.api.http) = {
+            delete: "/v1/users/{userId}"
+        };
+    };
+}
+

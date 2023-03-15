@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+
+option go_package = "grpcrest/proto;user";
+
+import "google/api/annotations.proto";
+
+message GetAllUserRequest {
+    string lastId = 1;
+    string limit = 2;
+}
+
+message GetAllUserResponse {
+    string message = 1;
+}
+
+service GetAllUserService {
+    rpc GetAllUser(GetAllUserRequest) returns (GetAllUserResponse){
+        option (google.api.http) = {
+            get: "/v1/users"
+            body: "*"
+        };
+    };
+}
+

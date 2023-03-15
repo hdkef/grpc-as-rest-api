@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+
+option go_package = "grpcrest/proto;auth";
+
+import "google/api/annotations.proto";
+
+message LoginAuthRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginAuthResponse {
+    string message = 1;
+}
+
+service LoginAuthService {
+    rpc LoginAuth(LoginAuthRequest) returns (LoginAuthResponse){
+        option (google.api.http) = {
+            post: "/v1/login"
+            body: "*"
+        };
+    };
+}
+
