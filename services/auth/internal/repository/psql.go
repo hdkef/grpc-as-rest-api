@@ -116,7 +116,7 @@ func (a *AuthRepo) DeleteAuth(auth *entity.Auth) error {
 // FindPasswordByEmail implements repository.AuthRepository
 func (a *AuthRepo) FindPasswordByEmail(auth *entity.Auth) (string, error) {
 	var pass string
-	err := a.sql.QueryRow(fmt.Sprintf("SELECT password from %s.auth WHERE email = ?", a.cfg.DBSchema), auth.Email).Scan(&pass)
+	err := a.sql.QueryRow(fmt.Sprintf("SELECT password FROM %s.auth WHERE email = $1", a.cfg.DBSchema), auth.Email).Scan(&pass)
 	if err != nil {
 		return "", err
 	}
