@@ -38,7 +38,7 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 		}, errors.New(errIncorrectPassword)
 	}
 
-	//dummy jwt
+	//dummy jwt TODO
 	jwt := "dummyjwt"
 
 	return response.MapToLoginResponse(jwt)

@@ -26,6 +26,9 @@ func main() {
 
 	//register grpc server
 	grpcserver.CreateAuthHandler(s, cfg, db)
+	grpcserver.DeleteAuthHandler(s, cfg, db)
+	grpcserver.LoginAuthHandler(s, cfg, db)
+	grpcserver.UpdateAuthHandler(s, cfg, db)
 
 	//serve
 	s.Serve(lis)

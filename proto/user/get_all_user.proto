@@ -11,7 +11,14 @@ message GetAllUserRequest {
 }
 
 message GetAllUserResponse {
-    string message = 1;
+    repeated User data = 1;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string address = 3;
+    string name = 4;
 }
 
 service GetAllUserService {

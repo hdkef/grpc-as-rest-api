@@ -10,6 +10,11 @@ type AuthArtifact struct {
 	authRepo authRepo.AuthRepository
 }
 
+// UpdateAuth implements usecase.AuthUseCase
+func (a *AuthArtifact) UpdateAuth(auth *entity.Auth) error {
+	return a.authRepo.UpdateAuth(auth)
+}
+
 // CreateAuth implements usecase.AuthUseCase
 func (a *AuthArtifact) CreateAuth(auth *entity.Auth) error {
 	return a.authRepo.CreateAuth(auth)

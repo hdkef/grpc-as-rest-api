@@ -3,6 +3,7 @@ package entity
 import "errors"
 
 const (
+	errEmptyID       = "err id is empty"
 	errEmptyEmail    = "err email is empty"
 	errEmptyUserID   = "err user id is empty"
 	errEmptyPassword = "err password is empty"
@@ -13,6 +14,14 @@ type Auth struct {
 	UserID   string
 	Password string
 	Email    string
+}
+
+func (u *Auth) SetID(id string) error {
+	u.ID = id
+	if id == "" {
+		return errors.New(errEmptyID)
+	}
+	return nil
 }
 
 func (u *Auth) SetUserID(id string) error {

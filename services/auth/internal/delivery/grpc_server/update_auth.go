@@ -5,43 +5,37 @@ import (
 	authpb "grpcrest/proto/_generated/auth"
 	"grpcrest/services/auth/domain/entity/request"
 
-	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *server) CreateAuth(ctx context.Context, auth *authpb.CreateAuthRequest) (*authpb.CreateAuthResponse, error) {
-	//generate id uuid
-	//generate uuid
-	id := uuid.New().String()
-
+func (s *server) UpdateAuth(ctx context.Context, auth *authpb.UpdateAuthRequest) (*authpb.UpdateAuthResponse, error) {
 	//mapper
-	d, err := request.MapGrpcCreateToAuth(auth)
+	d, err := request.MapGrpcUpdateToAuth(auth)
 	if err != nil {
-		return &authpb.CreateAuthResponse{
+		return &authpb.UpdateAuthResponse{
 			Message: err.Error(),
 		}, err
 	}
+
 	//hash password
 	hashed, err := bcrypt.GenerateFromPassword([]byte(d.Password), 10)
 	if err != nil {
-		return &authpb.CreateAuthResponse{
+		return &authpb.UpdateAuthResponse{
 			Message: err.Error(),
 		}, err
 	}
 
 	//set pass to hashed
 	d.SetPassword(string(hashed))
-	//set id uuid
-	d.SetID(id)
 
 	//execute usecase
-	err = s.authUC.CreateAuth(d)
+	err = s.authUC.UpdateAuth(d)
 	if err != nil {
-		return &authpb.CreateAuthResponse{
+		return &authpb.UpdateAuthResponse{
 			Message: err.Error(),
 		}, err
 	}
-	return &authpb.CreateAuthResponse{
-		Message: "success create auth",
+	return &authpb.UpdateAuthResponse{
+		Message: "success update auth",
 	}, nil
 }

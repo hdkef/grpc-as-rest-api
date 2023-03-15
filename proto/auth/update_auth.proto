@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+
+option go_package = "grpcrest/proto;auth";
+
+import "google/api/annotations.proto";
+
+message UpdateAuthRequest {
+    string user_id = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message UpdateAuthResponse {
+    string message = 1;
+}
+
+service UpdateAuthService {
+    rpc UpdateAuth(UpdateAuthRequest) returns (UpdateAuthResponse);
+}
+

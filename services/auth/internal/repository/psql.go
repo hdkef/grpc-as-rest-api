@@ -18,9 +18,54 @@ type AuthRepo struct {
 	cfg *cfg.AppConfig
 }
 
+type fieldUpdate struct {
+	field string
+	value string
+}
+
+// UpdateAuth implements repository.AuthRepository
+func (a *AuthRepo) UpdateAuth(auth *entity.Auth) error {
+	var upField []fieldUpdate
+	if auth.Email != "" {
+		upField = append(upField, fieldUpdate{field: "email", value: auth.Email})
+	}
+	if auth.Password != "" {
+		upField = append(upField, fieldUpdate{field: "password", value: auth.Password})
+	}
+	err := a.dynamicUpdate(auth.UserID, upField...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *AuthRepo) dynamicUpdate(userID string, f ...fieldUpdate) error {
+	//begin transaction
+	tx, err := u.sql.Begin()
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	//loop
+	for _, v := range f {
+		_, err = tx.Exec(fmt.Sprintf("UPDATE %s.auth SET %s = $1 WHERE user_id = $3", u.cfg.DBSchema, v.field), v.value, userID)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	//commit
+	err = tx.Commit()
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 // CreateAuth implements repository.AuthRepository
 func (a *AuthRepo) CreateAuth(auth *entity.Auth) error {
-	res, err := a.sql.Exec(fmt.Sprintf("INSERT INTO %s.auth(user_id,email_password) VALUES($1,$2,$3)", a.cfg.DBSchema), auth.UserID, auth.Email, auth.Password)
+	res, err := a.sql.Exec(fmt.Sprintf("INSERT INTO %s.auth(id,user_id,email,password) VALUES($1,$2,$3)", a.cfg.DBSchema), auth.ID, auth.UserID, auth.Email, auth.Password)
 	if err != nil {
 		return err
 	}

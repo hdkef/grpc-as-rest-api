@@ -5,6 +5,14 @@ import (
 	"grpcrest/services/auth/domain/entity"
 )
 
+func MapGrpcUpdateToAuth(r *authpb.UpdateAuthRequest) (*entity.Auth, error) {
+	return MapGrpcCreateToAuth(&authpb.CreateAuthRequest{
+		UserId:   r.GetUserId(),
+		Email:    r.Email,
+		Password: r.Password,
+	})
+}
+
 func MapGrpcCreateToAuth(r *authpb.CreateAuthRequest) (*entity.Auth, error) {
 	var data entity.Auth
 	err := data.SetEmail(r.GetEmail())
