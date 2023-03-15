@@ -12,6 +12,11 @@ type AuthArtifact struct {
 
 // UpdateAuth implements usecase.AuthUseCase
 func (a *AuthArtifact) UpdateAuth(auth *entity.Auth) error {
+	//check for unique, if exist set to empty string
+	exist := a.authRepo.IsExistEmail(&auth.Email)
+	if exist {
+		auth.Email = ""
+	}
 	return a.authRepo.UpdateAuth(auth)
 }
 

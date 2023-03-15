@@ -9,4 +9,5 @@ type AuthRepository interface {
 	CreateAuth(auth *entity.Auth) error
 	DeleteAuth(auth *entity.Auth) error
 	FindPasswordByEmail(auth *entity.Auth) (string, error)
+	IsExistEmail(email *string) bool
 }

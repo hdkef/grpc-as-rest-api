@@ -87,6 +87,12 @@ func (u *UserArtifact) Update(d *entity.User) error {
 		return err
 	}
 
+	//check for unique, if exist set to empty string
+	exist := u.userrepo.IsExistEmail(&d.Email)
+	if exist {
+		d.Email = ""
+	}
+
 	//update user
 	err = u.userrepo.Update(d)
 	if err != nil {

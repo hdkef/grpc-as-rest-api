@@ -79,7 +79,7 @@ func (u *UserRepository) GetAll(page *int, limit *int) ([]entity.User, error) {
 // IsExistEmail implements repository.UserRepository
 func (u *UserRepository) IsExistEmail(email *string) bool {
 	var id string
-	err := u.sql.QueryRow(fmt.Sprintf("SELECT id from %s.users WHERE email = $1", u.cfg.DBSchema), *email).Scan(&id)
+	err := u.sql.QueryRow(fmt.Sprintf("SELECT text(id) from %s.users WHERE email = $1", u.cfg.DBSchema), *email).Scan(&id)
 	if err != nil {
 		return false
 	}
@@ -119,7 +119,7 @@ func (u *UserRepository) dynamicUpdate(userID string, f ...fieldUpdate) error {
 	}
 	//loop
 	for _, v := range f {
-		_, err = tx.Exec(fmt.Sprintf("UPDATE %s.users SET %s = $1 WHERE id = $3", u.cfg.DBSchema, v.field), v.value, userID)
+		_, err = tx.Exec(fmt.Sprintf("UPDATE %s.users SET %s = $1 WHERE id = $2", u.cfg.DBSchema, v.field), v.value, userID)
 		if err != nil {
 			tx.Rollback()
 			return err
