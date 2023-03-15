@@ -30,7 +30,8 @@ func AuthInterceptor(methods []string, jwt jwtS.JWTService_, secret string) grpc
 					return "", errors.New("unauthorized no bearer token provided")
 				}
 
-				token := tokenSlice[0]
+				tokenBearer := tokenSlice[0]
+				token := tokenBearer[7:]
 				userId, err := jwt.ParseToken(token, secret)
 				if err != nil {
 					return "", errors.New("token failed or expired")
