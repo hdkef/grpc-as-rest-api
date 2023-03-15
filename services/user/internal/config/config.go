@@ -14,6 +14,7 @@ type AppConfig struct {
 	DBPort     string
 	AppPort    string
 	AuthPort   string
+	AuthHost   string
 }
 
 func NewAppConfig() *AppConfig {
@@ -64,5 +65,11 @@ func NewAppConfig() *AppConfig {
 		log.Fatal("auth port required")
 	}
 	cfg.AuthPort = AuthPort
+
+	AuthHost, valid := os.LookupEnv("AUTH_HOST")
+	if !valid {
+		log.Fatal("auth host required")
+	}
+	cfg.AuthHost = AuthHost
 	return &cfg
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"grpcrest/services/user/internal/config"
 	grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
 	grpcserver "grpcrest/services/user/internal/delivery/grpc_server"
@@ -8,6 +9,7 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
@@ -18,7 +20,7 @@ func main() {
 
 	//dial grpc auth client
 
-	authClientConn, err := grpc.Dial(cfg.AuthPort)
+	authClientConn, err := grpc.Dial(fmt.Sprintf("%s:%s", cfg.AuthHost, cfg.AuthPort), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -30,13 +32,13 @@ func main() {
 	}
 
 	//serve grpc server
-	lis, err := net.Listen("tcp", cfg.AppPort)
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", cfg.AppPort))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	var opts []grpc.ServerOption
-	s := grpc.NewServer(opts)
+	// var opts []grpc.ServerOption
+	s := grpc.NewServer()
 
 	//register grpc server
 	grpcserver.CreateUserHandler(s, cfg, db, *authClient)
