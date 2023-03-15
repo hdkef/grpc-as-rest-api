@@ -114,13 +114,14 @@ func (a *AuthRepo) DeleteAuth(auth *entity.Auth) error {
 }
 
 // FindPasswordByEmail implements repository.AuthRepository
-func (a *AuthRepo) FindPasswordByEmail(auth *entity.Auth) (string, error) {
+func (a *AuthRepo) FindUserIdPasswordByEmail(auth *entity.Auth) (string, string, error) {
 	var pass string
-	err := a.sql.QueryRow(fmt.Sprintf("SELECT password FROM %s.auth WHERE email = $1", a.cfg.DBSchema), auth.Email).Scan(&pass)
+	var userId string
+	err := a.sql.QueryRow(fmt.Sprintf("SELECT password, text(user_id) FROM %s.auth WHERE email = $1", a.cfg.DBSchema), auth.Email).Scan(&pass, &userId)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
-	return pass, nil
+	return userId, pass, nil
 }
 
 func NewAuthRepo(sql *sql.DB, cfg *cfg.AppConfig) domain.AuthRepository {

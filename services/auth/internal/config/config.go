@@ -13,6 +13,7 @@ type AppConfig struct {
 	DBHost     string
 	DBPort     string
 	AppPort    string
+	JWTSecret  string
 }
 
 func NewAppConfig() *AppConfig {
@@ -57,5 +58,11 @@ func NewAppConfig() *AppConfig {
 		log.Fatal("db username required")
 	}
 	cfg.DBUsername = DBUsername
+
+	JWTSecret, valid := os.LookupEnv("JWT_SECRET")
+	if !valid {
+		log.Fatal("jwt secret required")
+	}
+	cfg.JWTSecret = JWTSecret
 	return &cfg
 }

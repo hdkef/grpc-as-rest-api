@@ -21,5 +21,6 @@ func UpdateUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc gr
 	//register grpc service
 	userpb.RegisterUpdateUserServiceServer(s, &server{
 		userUC: uc,
+		cfg:    cfg,
 	})
 }

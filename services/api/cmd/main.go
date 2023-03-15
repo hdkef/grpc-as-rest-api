@@ -16,7 +16,7 @@ import (
 func customHeaderMatcher() runtime.HeaderMatcherFunc {
 	return func(headerKey string) (string, bool) {
 		switch headerKey {
-		case "X-User-Id":
+		case "Authorization":
 			//validate jwt here
 			return headerKey, true
 		}

@@ -21,5 +21,6 @@ func DeleteUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc gr
 	//register grpc service
 	userpb.RegisterDeleteUserServiceServer(s, &server{
 		userUC: uc,
+		cfg:    cfg,
 	})
 }

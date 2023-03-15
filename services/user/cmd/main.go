@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	ai "grpcrest/pkg/auth"
+	jwtS "grpcrest/pkg/auth/jwt_service"
 	"grpcrest/services/user/internal/config"
 	grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
 	grpcserver "grpcrest/services/user/internal/delivery/grpc_server"
@@ -38,7 +40,9 @@ func main() {
 	}
 
 	// var opts []grpc.ServerOption
-	s := grpc.NewServer()
+	var methods []string = []string{"/DeleteUserService/DeleteUser", "/UpdateUserService/UpdateUser"}
+	jwt := jwtS.NewJWTService()
+	s := grpc.NewServer(grpc.UnaryInterceptor(ai.AuthInterceptor(methods, jwt, cfg.JWTSecret)))
 
 	//register grpc server
 	grpcserver.CreateUserHandler(s, cfg, db, *authClient)

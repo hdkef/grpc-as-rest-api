@@ -15,6 +15,7 @@ type AppConfig struct {
 	AppPort    string
 	AuthPort   string
 	AuthHost   string
+	JWTSecret  string
 }
 
 func NewAppConfig() *AppConfig {
@@ -71,5 +72,11 @@ func NewAppConfig() *AppConfig {
 		log.Fatal("auth host required")
 	}
 	cfg.AuthHost = AuthHost
+
+	JWTSecret, valid := os.LookupEnv("JWT_SECRET")
+	if !valid {
+		log.Fatal("jwt secret required")
+	}
+	cfg.JWTSecret = JWTSecret
 	return &cfg
 }

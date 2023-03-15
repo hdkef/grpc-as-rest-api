@@ -23,7 +23,7 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 		}, err
 	}
 	//find password by email
-	pass, err := s.authUC.FindPasswordByEmail(d)
+	userId, pass, err := s.authUC.FindUserIdPasswordByEmail(d)
 	if err != nil {
 		return &authpb.LoginAuthResponse{
 			Message: err.Error(),
@@ -38,8 +38,12 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 		}, errors.New(errIncorrectPassword)
 	}
 
-	//dummy jwt TODO
-	jwt := "dummyjwt"
+	tokenstr, err := s.jwtService.GenerateToken(userId, s.cfg.JWTSecret)
+	if err != nil {
+		return &authpb.LoginAuthResponse{
+			Message: errIncorrectPassword,
+		}, errors.New(errIncorrectPassword)
+	}
 
-	return response.MapToLoginResponse(jwt)
+	return response.MapToLoginResponse(tokenstr)
 }

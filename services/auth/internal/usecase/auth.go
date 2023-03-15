@@ -31,8 +31,8 @@ func (a *AuthArtifact) DeleteAuth(auth *entity.Auth) error {
 }
 
 // FindPasswordByEmail implements usecase.AuthUseCase
-func (a *AuthArtifact) FindPasswordByEmail(auth *entity.Auth) (string, error) {
-	return a.authRepo.FindPasswordByEmail(auth)
+func (a *AuthArtifact) FindUserIdPasswordByEmail(auth *entity.Auth) (string, string, error) {
+	return a.authRepo.FindUserIdPasswordByEmail(auth)
 }
 
 func NewAuthUsecase(repo authRepo.AuthRepository) domain.AuthUseCase {
