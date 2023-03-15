@@ -5,14 +5,14 @@ option go_package = "grpcrest/proto;auth";
 
 import "google/api/annotations.proto";
 
-message DeleteRequest {
+message DeleteAuthRequest {
     string user_id = 1;
 }
 
-message DeleteResponse {
+message DeleteAuthResponse {
     string message = 1;
 }
 
 service DeleteAuthService {
-    rpc DeleteAuth(DeleteRequest) returns (DeleteResponse);
+    rpc DeleteAuth(DeleteAuthRequest) returns (DeleteAuthResponse);
 }

@@ -6,8 +6,8 @@ option go_package = "grpcrest/proto;user";
 import "google/api/annotations.proto";
 
 message GetAllUserRequest {
-    string lastId = 1;
-    string limit = 2;
+    int32 lastId = 1;
+    int32 limit = 2;
 }
 
 message GetAllUserResponse {
@@ -18,7 +18,6 @@ service GetAllUserService {
     rpc GetAllUser(GetAllUserRequest) returns (GetAllUserResponse){
         option (google.api.http) = {
             get: "/v1/users"
-            body: "*"
         };
     };
 }

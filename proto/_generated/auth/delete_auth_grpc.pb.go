@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DeleteAuthServiceClient interface {
-	DeleteAuth(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	DeleteAuth(ctx context.Context, in *DeleteAuthRequest, opts ...grpc.CallOption) (*DeleteAuthResponse, error)
 }
 
 type deleteAuthServiceClient struct {
@@ -37,8 +37,8 @@ func NewDeleteAuthServiceClient(cc grpc.ClientConnInterface) DeleteAuthServiceCl
 	return &deleteAuthServiceClient{cc}
 }
 
-func (c *deleteAuthServiceClient) DeleteAuth(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
+func (c *deleteAuthServiceClient) DeleteAuth(ctx context.Context, in *DeleteAuthRequest, opts ...grpc.CallOption) (*DeleteAuthResponse, error) {
+	out := new(DeleteAuthResponse)
 	err := c.cc.Invoke(ctx, DeleteAuthService_DeleteAuth_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,14 +50,14 @@ func (c *deleteAuthServiceClient) DeleteAuth(ctx context.Context, in *DeleteRequ
 // All implementations should embed UnimplementedDeleteAuthServiceServer
 // for forward compatibility
 type DeleteAuthServiceServer interface {
-	DeleteAuth(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	DeleteAuth(context.Context, *DeleteAuthRequest) (*DeleteAuthResponse, error)
 }
 
 // UnimplementedDeleteAuthServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedDeleteAuthServiceServer struct {
 }
 
-func (UnimplementedDeleteAuthServiceServer) DeleteAuth(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+func (UnimplementedDeleteAuthServiceServer) DeleteAuth(context.Context, *DeleteAuthRequest) (*DeleteAuthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAuth not implemented")
 }
 
@@ -73,7 +73,7 @@ func RegisterDeleteAuthServiceServer(s grpc.ServiceRegistrar, srv DeleteAuthServ
 }
 
 func _DeleteAuthService_DeleteAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteRequest)
+	in := new(DeleteAuthRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func _DeleteAuthService_DeleteAuth_Handler(srv interface{}, ctx context.Context,
 		FullMethod: DeleteAuthService_DeleteAuth_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DeleteAuthServiceServer).DeleteAuth(ctx, req.(*DeleteRequest))
+		return srv.(DeleteAuthServiceServer).DeleteAuth(ctx, req.(*DeleteAuthRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

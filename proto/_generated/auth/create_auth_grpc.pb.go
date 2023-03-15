@@ -19,87 +19,87 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AuthCreateService_CreateAuth_FullMethodName = "/AuthCreateService/CreateAuth"
+	CreateAuthService_CreateAuth_FullMethodName = "/CreateAuthService/CreateAuth"
 )
 
-// AuthCreateServiceClient is the client API for AuthCreateService service.
+// CreateAuthServiceClient is the client API for CreateAuthService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AuthCreateServiceClient interface {
+type CreateAuthServiceClient interface {
 	CreateAuth(ctx context.Context, in *CreateAuthRequest, opts ...grpc.CallOption) (*CreateAuthResponse, error)
 }
 
-type authCreateServiceClient struct {
+type createAuthServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewAuthCreateServiceClient(cc grpc.ClientConnInterface) AuthCreateServiceClient {
-	return &authCreateServiceClient{cc}
+func NewCreateAuthServiceClient(cc grpc.ClientConnInterface) CreateAuthServiceClient {
+	return &createAuthServiceClient{cc}
 }
 
-func (c *authCreateServiceClient) CreateAuth(ctx context.Context, in *CreateAuthRequest, opts ...grpc.CallOption) (*CreateAuthResponse, error) {
+func (c *createAuthServiceClient) CreateAuth(ctx context.Context, in *CreateAuthRequest, opts ...grpc.CallOption) (*CreateAuthResponse, error) {
 	out := new(CreateAuthResponse)
-	err := c.cc.Invoke(ctx, AuthCreateService_CreateAuth_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CreateAuthService_CreateAuth_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// AuthCreateServiceServer is the server API for AuthCreateService service.
-// All implementations should embed UnimplementedAuthCreateServiceServer
+// CreateAuthServiceServer is the server API for CreateAuthService service.
+// All implementations should embed UnimplementedCreateAuthServiceServer
 // for forward compatibility
-type AuthCreateServiceServer interface {
+type CreateAuthServiceServer interface {
 	CreateAuth(context.Context, *CreateAuthRequest) (*CreateAuthResponse, error)
 }
 
-// UnimplementedAuthCreateServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedAuthCreateServiceServer struct {
+// UnimplementedCreateAuthServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedCreateAuthServiceServer struct {
 }
 
-func (UnimplementedAuthCreateServiceServer) CreateAuth(context.Context, *CreateAuthRequest) (*CreateAuthResponse, error) {
+func (UnimplementedCreateAuthServiceServer) CreateAuth(context.Context, *CreateAuthRequest) (*CreateAuthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAuth not implemented")
 }
 
-// UnsafeAuthCreateServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AuthCreateServiceServer will
+// UnsafeCreateAuthServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CreateAuthServiceServer will
 // result in compilation errors.
-type UnsafeAuthCreateServiceServer interface {
-	mustEmbedUnimplementedAuthCreateServiceServer()
+type UnsafeCreateAuthServiceServer interface {
+	mustEmbedUnimplementedCreateAuthServiceServer()
 }
 
-func RegisterAuthCreateServiceServer(s grpc.ServiceRegistrar, srv AuthCreateServiceServer) {
-	s.RegisterService(&AuthCreateService_ServiceDesc, srv)
+func RegisterCreateAuthServiceServer(s grpc.ServiceRegistrar, srv CreateAuthServiceServer) {
+	s.RegisterService(&CreateAuthService_ServiceDesc, srv)
 }
 
-func _AuthCreateService_CreateAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CreateAuthService_CreateAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAuthRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthCreateServiceServer).CreateAuth(ctx, in)
+		return srv.(CreateAuthServiceServer).CreateAuth(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AuthCreateService_CreateAuth_FullMethodName,
+		FullMethod: CreateAuthService_CreateAuth_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthCreateServiceServer).CreateAuth(ctx, req.(*CreateAuthRequest))
+		return srv.(CreateAuthServiceServer).CreateAuth(ctx, req.(*CreateAuthRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// AuthCreateService_ServiceDesc is the grpc.ServiceDesc for AuthCreateService service.
+// CreateAuthService_ServiceDesc is the grpc.ServiceDesc for CreateAuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var AuthCreateService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "AuthCreateService",
-	HandlerType: (*AuthCreateServiceServer)(nil),
+var CreateAuthService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "CreateAuthService",
+	HandlerType: (*CreateAuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateAuth",
-			Handler:    _AuthCreateService_CreateAuth_Handler,
+			Handler:    _CreateAuthService_CreateAuth_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

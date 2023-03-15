@@ -15,7 +15,7 @@ message CreateAuthResponse {
     string message = 1;
 }
 
-service AuthCreateService {
+service CreateAuthService {
     rpc CreateAuth(CreateAuthRequest) returns (CreateAuthResponse);
 }
 
