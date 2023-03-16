@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func DeleteUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc grpcclient.AuthGRPCClient) {
+func DeleteUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc grpcclient.AuthGRPCClient_) {
 	//init repo
 	repo := repository.NewUserRepository(sql, cfg)
 

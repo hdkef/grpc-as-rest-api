@@ -7,11 +7,11 @@ import (
 )
 
 type UserArtifact struct {
-	authgrpcclient grpcclient.AuthGRPCClient
+	authgrpcclient grpcclient.AuthGRPCClient_
 	userrepo       repository.UserRepository
 }
 
-func NewUserUsecase(repo repository.UserRepository, authgrpcclient grpcclient.AuthGRPCClient) usecase.UserUsecase {
+func NewUserUsecase(repo repository.UserRepository, authgrpcclient grpcclient.AuthGRPCClient_) usecase.UserUsecase {
 	return &UserArtifact{
 		userrepo:       repo,
 		authgrpcclient: authgrpcclient,

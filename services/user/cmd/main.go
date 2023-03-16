@@ -28,7 +28,7 @@ func main() {
 	}
 
 	//register grpc auth client
-	authClient, err := grpcclient.AuthGRPCClientHandler(authClientConn)
+	authClient, err := grpcclient.NewAuthGRPCClientHandler(authClientConn)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -45,10 +45,10 @@ func main() {
 	s := grpc.NewServer(grpc.UnaryInterceptor(ai.AuthInterceptor(methods, jwt)))
 
 	//register grpc server
-	grpcserver.CreateUserHandler(s, cfg, db, *authClient)
-	grpcserver.GetAllUserHandler(s, cfg, db, *authClient)
-	grpcserver.DeleteUserHandler(s, cfg, db, *authClient)
-	grpcserver.UpdateUserHandler(s, cfg, db, *authClient)
+	grpcserver.CreateUserHandler(s, cfg, db, authClient)
+	grpcserver.GetAllUserHandler(s, cfg, db, authClient)
+	grpcserver.DeleteUserHandler(s, cfg, db, authClient)
+	grpcserver.UpdateUserHandler(s, cfg, db, authClient)
 
 	//serve
 	s.Serve(lis)

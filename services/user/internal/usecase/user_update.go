@@ -16,7 +16,7 @@ func (u *UserArtifact) Update(d *entity.User) error {
 		Password: d.Password,
 	}
 
-	_, err := u.authgrpcclient.Update.UpdateAuth(context.Background(), &a)
+	_, err := u.authgrpcclient.UpdateAuth(context.Background(), &a)
 	if err != nil {
 		return err
 	}

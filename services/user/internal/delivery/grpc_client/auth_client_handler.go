@@ -7,19 +7,25 @@ import (
 )
 
 type AuthGRPCClient struct {
-	Create authpb.CreateAuthServiceClient
-	Delete authpb.DeleteAuthServiceClient
-	Update authpb.UpdateAuthServiceClient
+	authpb.CreateAuthServiceClient
+	authpb.DeleteAuthServiceClient
+	authpb.UpdateAuthServiceClient
 }
 
-func AuthGRPCClientHandler(conn *grpc.ClientConn) (*AuthGRPCClient, error) {
+type AuthGRPCClient_ interface {
+	authpb.CreateAuthServiceClient
+	authpb.DeleteAuthServiceClient
+	authpb.UpdateAuthServiceClient
+}
+
+func NewAuthGRPCClientHandler(conn *grpc.ClientConn) (AuthGRPCClient_, error) {
 	var c AuthGRPCClient
 	//bind new client grpc to struct
 	createClient := authpb.NewCreateAuthServiceClient(conn)
 	updateClient := authpb.NewUpdateAuthServiceClient(conn)
 	deleteClient := authpb.NewDeleteAuthServiceClient(conn)
-	c.Create = createClient
-	c.Update = updateClient
-	c.Delete = deleteClient
+	c.CreateAuthServiceClient = createClient
+	c.UpdateAuthServiceClient = updateClient
+	c.DeleteAuthServiceClient = deleteClient
 	return &c, nil
 }

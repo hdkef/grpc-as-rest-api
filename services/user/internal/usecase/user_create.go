@@ -21,7 +21,7 @@ func (u *UserArtifact) Create(d *entity.User) error {
 		UserId:   userid,
 	}
 
-	_, err := u.authgrpcclient.Create.CreateAuth(context.Background(), &a)
+	_, err := u.authgrpcclient.CreateAuth(context.Background(), &a)
 	if err != nil {
 		return err
 	}

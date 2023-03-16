@@ -15,7 +15,7 @@ func (u *UserArtifact) Delete(d *entity.User) error {
 
 	// log.Println("DEBUG USECASE DELETE")
 
-	_, err := u.authgrpcclient.Delete.DeleteAuth(context.Background(), &a)
+	_, err := u.authgrpcclient.DeleteAuth(context.Background(), &a)
 	if err != nil {
 		return err
 	}
