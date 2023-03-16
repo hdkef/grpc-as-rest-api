@@ -29,6 +29,9 @@ func TestUpdateUser(t *testing.T) {
 	mockUserRepoSuccess := new(mocks.UserRepository)
 	mockUserRepoSuccess.On("Update", fakeEntity).Return(nil)
 	mockUserRepoSuccess.On("IsExistEmail", mock.AnythingOfType("*string")).Return(false)
+	mockUserRepoSuccess2 := new(mocks.UserRepository)
+	mockUserRepoSuccess2.On("Update", fakeEntity).Return(nil)
+	mockUserRepoSuccess2.On("IsExistEmail", mock.AnythingOfType("*string")).Return(true)
 	mockUserRepoFail := new(mocks.UserRepository)
 	mockUserRepoFail.On("Update", fakeEntity).Return(errors.New("some error"))
 	mockUserRepoFail.On("IsExistEmail", mock.AnythingOfType("*string")).Return(false)
@@ -48,6 +51,17 @@ func TestUpdateUser(t *testing.T) {
 			Field: field{
 				authgrpcclient: mockAuthGrpcClientSuccess,
 				userrepo:       mockUserRepoSuccess,
+			},
+			Args: args{
+				user: fakeEntity,
+			},
+			Err: nil,
+		},
+		{
+			Name: "success",
+			Field: field{
+				authgrpcclient: mockAuthGrpcClientSuccess,
+				userrepo:       mockUserRepoSuccess2,
 			},
 			Args: args{
 				user: fakeEntity,
