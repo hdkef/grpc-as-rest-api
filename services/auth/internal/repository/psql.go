@@ -7,6 +7,7 @@ import (
 	"grpcrest/services/auth/domain/entity"
 	domain "grpcrest/services/auth/domain/repository"
 	cfg "grpcrest/services/auth/internal/config"
+	"grpcrest/services/auth/internal/repository/mapper"
 
 	"github.com/google/uuid"
 )
@@ -36,7 +37,8 @@ type fieldUpdate struct {
 }
 
 // UpdateAuth implements repository.AuthRepository
-func (a *AuthRepo) UpdateAuth(auth *entity.Auth) error {
+func (a *AuthRepo) UpdateAuth(x *entity.Auth) error {
+	auth := mapper.ToModels(x)
 	var upField []fieldUpdate
 	if auth.Email != "" {
 		upField = append(upField, fieldUpdate{field: "email", value: auth.Email})
@@ -76,7 +78,8 @@ func (u *AuthRepo) dynamicUpdate(userID string, f ...fieldUpdate) error {
 }
 
 // CreateAuth implements repository.AuthRepository
-func (a *AuthRepo) CreateAuth(auth *entity.Auth) error {
+func (a *AuthRepo) CreateAuth(x *entity.Auth) error {
+	auth := mapper.ToModels(x)
 	res, err := a.sql.Exec(fmt.Sprintf("INSERT INTO %s.auth(id,user_id,email,password) VALUES($1,$2,$3,$4)", a.cfg.DBSchema), auth.ID, auth.UserID, auth.Email, auth.Password)
 	if err != nil {
 		return err
@@ -92,7 +95,8 @@ func (a *AuthRepo) CreateAuth(auth *entity.Auth) error {
 }
 
 // DeleteAuth implements repository.AuthRepository
-func (a *AuthRepo) DeleteAuth(auth *entity.Auth) error {
+func (a *AuthRepo) DeleteAuth(x *entity.Auth) error {
+	auth := mapper.ToModels(x)
 	//convert to uuid
 	userid, err := uuid.Parse(auth.UserID)
 	if err != nil {
@@ -114,7 +118,8 @@ func (a *AuthRepo) DeleteAuth(auth *entity.Auth) error {
 }
 
 // FindPasswordByEmail implements repository.AuthRepository
-func (a *AuthRepo) FindUserIdPasswordByEmail(auth *entity.Auth) (string, string, error) {
+func (a *AuthRepo) FindUserIdPasswordByEmail(x *entity.Auth) (string, string, error) {
+	auth := mapper.ToModels(x)
 	var pass string
 	var userId string
 	err := a.sql.QueryRow(fmt.Sprintf("SELECT password, text(user_id) FROM %s.auth WHERE email = $1", a.cfg.DBSchema), auth.Email).Scan(&pass, &userId)

@@ -7,6 +7,8 @@ import (
 	"grpcrest/services/user/domain/entity"
 	domain "grpcrest/services/user/domain/repository"
 	"grpcrest/services/user/internal/config"
+	"grpcrest/services/user/internal/repository/mapper"
+	"grpcrest/services/user/internal/repository/models"
 
 	"github.com/google/uuid"
 )
@@ -21,7 +23,8 @@ type UserRepository struct {
 }
 
 // Create implements repository.UserRepository
-func (u *UserRepository) Create(d *entity.User) error {
+func (u *UserRepository) Create(x *entity.User) error {
+	d := mapper.ToModels(x)
 	res, err := u.sql.Exec(fmt.Sprintf("INSERT INTO %s.users(id,name,email,address) VALUES ($1,$2,$3,$4)", u.cfg.DBSchema), d.ID, d.Name, d.Email, d.Address)
 	if err != nil {
 		return err
@@ -37,7 +40,8 @@ func (u *UserRepository) Create(d *entity.User) error {
 }
 
 // Delete implements repository.UserRepository
-func (u *UserRepository) Delete(d *entity.User) error {
+func (u *UserRepository) Delete(x *entity.User) error {
+	d := mapper.ToModels(x)
 	//convert to uuid
 	id, err := uuid.Parse(d.ID)
 	if err != nil {
@@ -59,21 +63,21 @@ func (u *UserRepository) Delete(d *entity.User) error {
 
 // GetAll implements repository.UserRepository
 func (u *UserRepository) GetAll(page *int, limit *int) ([]entity.User, error) {
-	var data []entity.User
+	var data []models.User
 	offset := (*page - 1) * *limit
 	rows, err := u.sql.Query(fmt.Sprintf("SELECT text(id),name,email,address FROM %s.users OFFSET $1 LIMIT $2", u.cfg.DBSchema), offset, *limit)
 	if err != nil {
 		return nil, err
 	}
 	for rows.Next() {
-		var tmp entity.User
+		var tmp models.User
 		err = rows.Scan(&tmp.ID, &tmp.Name, &tmp.Email, &tmp.Address)
 		if err != nil {
 			return nil, err
 		}
 		data = append(data, tmp)
 	}
-	return data, nil
+	return mapper.ToEntities(data), nil
 }
 
 // IsExistEmail implements repository.UserRepository
@@ -92,7 +96,8 @@ type fieldUpdate struct {
 }
 
 // Update implements repository.UserRepository
-func (u *UserRepository) Update(user *entity.User) error {
+func (u *UserRepository) Update(x *entity.User) error {
+	user := mapper.ToModels(x)
 	var upField []fieldUpdate
 	if user.Email != "" {
 		upField = append(upField, fieldUpdate{field: "email", value: user.Email})
