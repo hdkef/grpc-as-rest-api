@@ -53,6 +53,18 @@ func TestCreateUser(t *testing.T) {
 			Err: nil,
 		},
 		{
+			Name: "fail usecase",
+			Field: field{
+				userUC: mockUserUCFail,
+				cfg:    doubleCfg,
+			},
+			Args: args{
+				ctx:  peer.NewContext(context.TODO(), p),
+				user: testdata.NewCreateUserRequestFull(),
+			},
+			Err: errors.New("some error"),
+		},
+		{
 			Name: "missing name",
 			Field: field{
 				userUC: mockUserUCSuccess,

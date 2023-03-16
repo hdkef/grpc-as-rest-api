@@ -59,6 +59,18 @@ func TestDeleteUser(t *testing.T) {
 			Err: nil,
 		},
 		{
+			Name: "no user id and no metadata",
+			Field: field{
+				userUC: mockUserUCSuccess,
+				cfg:    doubleCfg,
+			},
+			Args: args{
+				ctx:  peer.NewContext(differentIdCtx, p),
+				user: testdata.NewDeleteUserRequestNoUserId(),
+			},
+			Err: errors.New("some error"),
+		},
+		{
 			Name: "different userId than jwt userId",
 			Field: field{
 				userUC: mockUserUCSuccess,
@@ -78,6 +90,18 @@ func TestDeleteUser(t *testing.T) {
 			},
 			Args: args{
 				ctx:  peer.NewContext(context.TODO(), p),
+				user: fakeDeleteRequest,
+			},
+			Err: errors.New("some error"),
+		},
+		{
+			Name: "fail usecase",
+			Field: field{
+				userUC: mockUserUCFail,
+				cfg:    doubleCfg,
+			},
+			Args: args{
+				ctx:  peer.NewContext(sameUserIdCtx, p),
 				user: fakeDeleteRequest,
 			},
 			Err: errors.New("some error"),

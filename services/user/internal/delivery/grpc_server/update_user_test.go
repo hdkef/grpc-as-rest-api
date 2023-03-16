@@ -59,6 +59,18 @@ func TestUpdateUser(t *testing.T) {
 			Err: nil,
 		},
 		{
+			Name: "fail usecase",
+			Field: field{
+				userUC: mockUserUCFail,
+				cfg:    doubleCfg,
+			},
+			Args: args{
+				ctx:  peer.NewContext(sameUserIdCtx, p),
+				user: fakeUpdateRequest,
+			},
+			Err: errors.New("some error"),
+		},
+		{
 			Name: "different userId than jwt userId",
 			Field: field{
 				userUC: mockUserUCSuccess,

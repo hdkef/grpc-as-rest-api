@@ -23,6 +23,12 @@ func NewDeleteUserRequest() *userpb.DeleteUserRequest {
 	}
 }
 
+func NewDeleteUserRequestNoUserId() *userpb.DeleteUserRequest {
+	v := NewDeleteUserRequest()
+	v.UserId = ""
+	return v
+}
+
 func NewCreateUserRequestFull() *userpb.CreateUserRequest {
 	return &userpb.CreateUserRequest{
 		Name:     faker.Name(),

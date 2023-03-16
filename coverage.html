@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>usecase: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">grpcrest/services/auth/internal/usecase/auth.go (100.0%)</option>
+				
+				<option value="file1">grpcrest/services/auth/internal/usecase/bcryptartifact.go (0.0%)</option>
+				
+				<option value="file2">grpcrest/services/user/internal/delivery/grpc_server/create_user.go (90.9%)</option>
+				
+				<option value="file3">grpcrest/services/user/internal/delivery/grpc_server/create_user_hander.go (0.0%)</option>
+				
+				<option value="file4">grpcrest/services/user/internal/delivery/grpc_server/delete_user.go (100.0%)</option>
+				
+				<option value="file5">grpcrest/services/user/internal/delivery/grpc_server/delete_user_handler.go (0.0%)</option>
+				
+				<option value="file6">grpcrest/services/user/internal/delivery/grpc_server/get_all_user.go (0.0%)</option>
+				
+				<option value="file7">grpcrest/services/user/internal/delivery/grpc_server/get_all_user_handler.go (0.0%)</option>
+				
+				<option value="file8">grpcrest/services/user/internal/delivery/grpc_server/update_user.go (100.0%)</option>
+				
+				<option value="file9">grpcrest/services/user/internal/delivery/grpc_server/update_user_hander.go (0.0%)</option>
+				
+				<option value="file10">grpcrest/services/user/internal/usecase/user_artifact.go (100.0%)</option>
+				
+				<option value="file11">grpcrest/services/user/internal/usecase/user_create.go (100.0%)</option>
+				
+				<option value="file12">grpcrest/services/user/internal/usecase/user_delete.go (100.0%)</option>
+				
+				<option value="file13">grpcrest/services/user/internal/usecase/user_get_all.go (100.0%)</option>
+				
+				<option value="file14">grpcrest/services/user/internal/usecase/user_update.go (100.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package usecase
+
+import (
+        "grpcrest/services/auth/domain/entity"
+        authRepo "grpcrest/services/auth/domain/repository"
+        domain "grpcrest/services/auth/domain/usecase"
+)
+
+type AuthArtifact struct {
+        authRepo authRepo.AuthRepository
+}
+
+// UpdateAuth implements usecase.AuthUseCase
+func (a *AuthArtifact) UpdateAuth(auth *entity.Auth) error <span class="cov5" title="3">{
+        //check for unique, if exist set to empty string
+        exist := a.authRepo.IsExistEmail(&amp;auth.Email)
+        if exist </span><span class="cov1" title="1">{
+                auth.Email = ""
+        }</span>
+        <span class="cov5" title="3">return a.authRepo.UpdateAuth(auth)</span>
+}
+
+// CreateAuth implements usecase.AuthUseCase
+func (a *AuthArtifact) CreateAuth(auth *entity.Auth) error <span class="cov3" title="2">{
+        return a.authRepo.CreateAuth(auth)
+}</span>
+
+// DeleteAuth implements usecase.AuthUseCase
+func (a *AuthArtifact) DeleteAuth(auth *entity.Auth) error <span class="cov3" title="2">{
+        return a.authRepo.DeleteAuth(auth)
+}</span>
+
+// FindPasswordByEmail implements usecase.AuthUseCase
+func (a *AuthArtifact) FindUserIdPasswordByEmail(auth *entity.Auth) (string, string, error) <span class="cov3" title="2">{
+        return a.authRepo.FindUserIdPasswordByEmail(auth)
+}</span>
+
+func NewAuthUsecase(repo authRepo.AuthRepository) domain.AuthUseCase <span class="cov10" title="9">{
+        return &amp;AuthArtifact{
+                authRepo: repo,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package usecase
+
+import (
+        domain "grpcrest/services/auth/domain/usecase"
+
+        "golang.org/x/crypto/bcrypt"
+)
+
+type Bcrypt struct {
+}
+
+func (*Bcrypt) CompareHashAndPassword(hashed []byte, pass []byte) error <span class="cov0" title="0">{
+        return bcrypt.CompareHashAndPassword(hashed, pass)
+}</span>
+
+func (*Bcrypt) GenerateFromPassword(pass []byte, cost int) ([]byte, error) <span class="cov0" title="0">{
+        return bcrypt.GenerateFromPassword(pass, cost)
+}</span>
+
+func NewBcrypt() domain.Bcrypt_ <span class="cov0" title="0">{
+        return &amp;Bcrypt{}
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package grpcserver
+
+import (
+        "context"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/delivery/request"
+
+        "github.com/google/uuid"
+)
+
+func (s *server) CreateUser(ctx context.Context, user *userpb.CreateUserRequest) (*userpb.CreateUserResponse, error) <span class="cov10" title="6">{
+        //generate uuid
+        id := uuid.New().String()
+
+        //mapper
+        d, err := request.MapGRPCCreateToUser(user)
+        if err != nil </span><span class="cov7" title="4">{
+                return &amp;userpb.CreateUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+
+        //set id
+        <span class="cov4" title="2">err = d.SetID(id)
+        if err != nil </span><span class="cov0" title="0">{
+                return &amp;userpb.CreateUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+
+        //execute usecase
+        <span class="cov4" title="2">err = s.userUC.Create(d)
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;userpb.CreateUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+        <span class="cov1" title="1">return &amp;userpb.CreateUserResponse{
+                Message: "success create user",
+        }, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package grpcserver
+
+import (
+        "database/sql"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/config"
+        grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
+        "grpcrest/services/user/internal/repository"
+        "grpcrest/services/user/internal/usecase"
+
+        "google.golang.org/grpc"
+)
+
+func CreateUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc grpcclient.AuthGRPCClient_) <span class="cov0" title="0">{
+        //init repo
+        repo := repository.NewUserRepository(sql, cfg)
+
+        //init usecase
+        uc := usecase.NewUserUsecase(repo, gc)
+
+        //register grpc service
+        userpb.RegisterCreateUserServiceServer(s, &amp;server{
+                userUC: uc,
+        })
+}</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package grpcserver
+
+import (
+        "context"
+        "errors"
+        "grpcrest/pkg/auth"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/delivery/request"
+)
+
+func (s *server) DeleteUser(ctx context.Context, user *userpb.DeleteUserRequest) (*userpb.DeleteUserResponse, error) <span class="cov10" title="5">{
+        //get userId, only user id match in jwt can delete
+        jwtuserid, err := auth.ExtractUserID(ctx)
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;userpb.DeleteUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+
+        //mapper
+        <span class="cov8" title="4">d, err := request.MapGRPCDeleteToUser(user)
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;userpb.DeleteUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+
+        <span class="cov7" title="3">if jwtuserid != d.ID </span><span class="cov1" title="1">{
+                return &amp;userpb.DeleteUserResponse{
+                        Message: "target user id did not match with your user id from token",
+                }, errors.New("target user id did not match with your user id from token")
+        }</span>
+
+        //execute usecase
+        <span class="cov4" title="2">err = s.userUC.Delete(d)
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;userpb.DeleteUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+        <span class="cov1" title="1">return &amp;userpb.DeleteUserResponse{
+                Message: "success delete user",
+        }, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package grpcserver
+
+import (
+        "database/sql"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/config"
+        grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
+        "grpcrest/services/user/internal/repository"
+        "grpcrest/services/user/internal/usecase"
+
+        "google.golang.org/grpc"
+)
+
+func DeleteUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc grpcclient.AuthGRPCClient_) <span class="cov0" title="0">{
+        //init repo
+        repo := repository.NewUserRepository(sql, cfg)
+
+        //init usecase
+        uc := usecase.NewUserUsecase(repo, gc)
+
+        //register grpc service
+        userpb.RegisterDeleteUserServiceServer(s, &amp;server{
+                userUC: uc,
+                cfg:    cfg,
+        })
+}</span>
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package grpcserver
+
+import (
+        "context"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/delivery/request"
+        "grpcrest/services/user/internal/delivery/response"
+)
+
+func (s *server) GetAllUser(ctx context.Context, p *userpb.GetAllUserRequest) (*userpb.GetAllUserResponse, error) <span class="cov0" title="0">{
+        //get last id and limit
+        lastid, limit, err := request.GetLastIDandLimit(p)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        //execute usecase
+        <span class="cov0" title="0">data, err := s.userUC.GetAll(&amp;lastid, &amp;limit)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        //send response
+        <span class="cov0" title="0">return response.MapToGetAllResponse(data)</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package grpcserver
+
+import (
+        "database/sql"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/config"
+        grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
+        "grpcrest/services/user/internal/repository"
+        "grpcrest/services/user/internal/usecase"
+
+        "google.golang.org/grpc"
+)
+
+func GetAllUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc grpcclient.AuthGRPCClient_) <span class="cov0" title="0">{
+        //init repo
+        repo := repository.NewUserRepository(sql, cfg)
+
+        //init usecase
+        uc := usecase.NewUserUsecase(repo, gc)
+
+        //register grpc service
+        userpb.RegisterGetAllUserServiceServer(s, &amp;server{
+                userUC: uc,
+        })
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package grpcserver
+
+import (
+        "context"
+        "errors"
+        "grpcrest/pkg/auth"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/delivery/request"
+)
+
+func (s *server) UpdateUser(ctx context.Context, user *userpb.UpdateUserRequest) (*userpb.UpdateUserResponse, error) <span class="cov10" title="9">{
+        //get userId, only user id match in jwt can update
+        jwtuserid, err := auth.ExtractUserID(ctx)
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;userpb.UpdateUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+
+        //mapper
+        <span class="cov9" title="8">d, err := request.MapGRPCUpdateToUser(user)
+        if err != nil </span><span class="cov7" title="5">{
+                return &amp;userpb.UpdateUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+
+        <span class="cov5" title="3">if jwtuserid != d.ID </span><span class="cov1" title="1">{
+                return &amp;userpb.UpdateUserResponse{
+                        Message: "target user id did not match with your user id from token",
+                }, errors.New("target user id did not match with your user id from token")
+        }</span>
+
+        //execute usecase
+        <span class="cov3" title="2">err = s.userUC.Update(d)
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;userpb.UpdateUserResponse{
+                        Message: err.Error(),
+                }, err
+        }</span>
+        <span class="cov1" title="1">return &amp;userpb.UpdateUserResponse{
+                Message: "success update user",
+        }, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package grpcserver
+
+import (
+        "database/sql"
+        userpb "grpcrest/proto/_generated/user"
+        "grpcrest/services/user/internal/config"
+        grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
+        "grpcrest/services/user/internal/repository"
+        "grpcrest/services/user/internal/usecase"
+
+        "google.golang.org/grpc"
+)
+
+func UpdateUserHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB, gc grpcclient.AuthGRPCClient_) <span class="cov0" title="0">{
+        //init repo
+        repo := repository.NewUserRepository(sql, cfg)
+
+        //init usecase
+        uc := usecase.NewUserUsecase(repo, gc)
+
+        //register grpc service
+        userpb.RegisterUpdateUserServiceServer(s, &amp;server{
+                userUC: uc,
+                cfg:    cfg,
+        })
+}</span>
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package usecase
+
+import (
+        "grpcrest/services/user/domain/repository"
+        "grpcrest/services/user/domain/usecase"
+        grpcclient "grpcrest/services/user/internal/delivery/grpc_client"
+)
+
+type UserArtifact struct {
+        authgrpcclient grpcclient.AuthGRPCClient_
+        userrepo       repository.UserRepository
+}
+
+func NewUserUsecase(repo repository.UserRepository, authgrpcclient grpcclient.AuthGRPCClient_) usecase.UserUsecase <span class="cov10" title="18">{
+        return &amp;UserArtifact{
+                userrepo:       repo,
+                authgrpcclient: authgrpcclient,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package usecase
+
+import (
+        "context"
+        authpb "grpcrest/proto/_generated/auth"
+        "grpcrest/services/user/domain/entity"
+
+        "github.com/google/uuid"
+)
+
+// Create implements usecase.UserUsecase
+func (u *UserArtifact) Create(d *entity.User) error <span class="cov10" title="4">{
+        //generate uuid
+        userid := uuid.New().String()
+
+        //create auth w/ grpc client
+        //map first
+        a := authpb.CreateAuthRequest{
+                Email:    d.Email,
+                Password: d.Password,
+                UserId:   userid,
+        }
+
+        _, err := u.authgrpcclient.CreateAuth(context.Background(), &amp;a)
+        if err != nil </span><span class="cov5" title="2">{
+                return err
+        }</span>
+
+        //set user uuid
+        <span class="cov5" title="2">d.ID = userid
+
+        //create user
+        err = u.userrepo.Create(d)
+        if err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
+        <span class="cov1" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package usecase
+
+import (
+        "context"
+        authpb "grpcrest/proto/_generated/auth"
+        "grpcrest/services/user/domain/entity"
+)
+
+// Delete implements usecase.UserUsecase
+func (u *UserArtifact) Delete(d *entity.User) error <span class="cov10" title="4">{
+        //delete auth w/ grpc client
+        a := authpb.DeleteAuthRequest{
+                UserId: d.ID,
+        }
+
+        // log.Println("DEBUG USECASE DELETE")
+
+        _, err := u.authgrpcclient.DeleteAuth(context.Background(), &amp;a)
+        if err != nil </span><span class="cov5" title="2">{
+                return err
+        }</span>
+
+        //delete user
+        <span class="cov5" title="2">err = u.userrepo.Delete(d)
+        if err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
+        <span class="cov1" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package usecase
+
+import (
+        "errors"
+        "grpcrest/services/user/domain/entity"
+)
+
+// GetAll implements usecase.UserUsecase
+func (u *UserArtifact) GetAll(page *int, limit *int) ([]entity.User, error) <span class="cov10" title="5">{
+        if *page &lt;= 0 || *limit &lt;= 0 </span><span class="cov7" title="3">{
+                return nil, errors.New("limit or page query params is invalid")
+        }</span>
+        <span class="cov4" title="2">return u.userrepo.GetAll(page, limit)</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package usecase
+
+import (
+        "context"
+        authpb "grpcrest/proto/_generated/auth"
+        "grpcrest/services/user/domain/entity"
+)
+
+// Update implements usecase.UserUsecase
+func (u *UserArtifact) Update(d *entity.User) error <span class="cov10" title="5">{
+        //update auth w/ grpc client
+        //map first
+        a := authpb.UpdateAuthRequest{
+                UserId:   d.ID,
+                Email:    d.Email,
+                Password: d.Password,
+        }
+
+        _, err := u.authgrpcclient.UpdateAuth(context.Background(), &amp;a)
+        if err != nil </span><span class="cov4" title="2">{
+                return err
+        }</span>
+
+        //check for unique, if exist set to empty string
+        <span class="cov7" title="3">exist := u.userrepo.IsExistEmail(&amp;d.Email)
+        if exist </span><span class="cov1" title="1">{
+                d.Email = ""
+        }</span>
+
+        //update user
+        <span class="cov7" title="3">err = u.userrepo.Update(d)
+        if err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
+        <span class="cov4" title="2">return nil</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
