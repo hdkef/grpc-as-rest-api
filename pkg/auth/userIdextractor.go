@@ -8,11 +8,11 @@ import (
 )
 
 func ExtractUserID(ctx context.Context) (string, error) {
-	md, ok := metadata.FromIncomingContext(ctx)
+	md, ok := metadata.FromOutgoingContext(ctx)
 	if !ok {
 		return "", errors.New("unauthorized no metadata provided")
 	}
-	userIdSlice := md.Get("userId")
+	userIdSlice := md.Get("x-user-id")
 	if len(userIdSlice) < 1 {
 		return "", errors.New("unauthorized no userId provided")
 	}
