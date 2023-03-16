@@ -3,7 +3,7 @@ package grpcserver
 import (
 	"context"
 	authpb "grpcrest/proto/_generated/auth"
-	"grpcrest/services/auth/domain/entity/request"
+	"grpcrest/services/auth/internal/delivery/request"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"

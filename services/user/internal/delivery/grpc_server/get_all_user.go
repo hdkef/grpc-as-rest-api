@@ -3,8 +3,8 @@ package grpcserver
 import (
 	"context"
 	userpb "grpcrest/proto/_generated/user"
-	"grpcrest/services/user/domain/entity/request"
-	"grpcrest/services/user/domain/entity/response"
+	"grpcrest/services/user/internal/delivery/request"
+	"grpcrest/services/user/internal/delivery/response"
 )
 
 func (s *server) GetAllUser(ctx context.Context, p *userpb.GetAllUserRequest) (*userpb.GetAllUserResponse, error) {

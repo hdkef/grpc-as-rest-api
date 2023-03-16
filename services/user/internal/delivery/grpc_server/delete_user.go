@@ -3,7 +3,7 @@ package grpcserver
 import (
 	"context"
 	userpb "grpcrest/proto/_generated/user"
-	"grpcrest/services/user/domain/entity/request"
+	"grpcrest/services/user/internal/delivery/request"
 )
 
 func (s *server) DeleteUser(ctx context.Context, user *userpb.DeleteUserRequest) (*userpb.DeleteUserResponse, error) {

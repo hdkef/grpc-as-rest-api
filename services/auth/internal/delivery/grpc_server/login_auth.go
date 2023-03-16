@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	authpb "grpcrest/proto/_generated/auth"
-	"grpcrest/services/auth/domain/entity/request"
-	"grpcrest/services/auth/domain/entity/response"
+	"grpcrest/services/auth/internal/delivery/request"
+	"grpcrest/services/auth/internal/delivery/response"
 
 	"golang.org/x/crypto/bcrypt"
 )
