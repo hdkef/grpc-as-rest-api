@@ -39,7 +39,7 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 		}, errors.New(errIncorrectPassword)
 	}
 
-	tokenstr, err := s.jwtService.GenerateToken(userId, s.cfg.JWTSecret)
+	tokenstr, err := s.jwtService.GenerateToken(userId)
 	if err != nil {
 		return &authpb.LoginAuthResponse{
 			Message: errIncorrectPassword,

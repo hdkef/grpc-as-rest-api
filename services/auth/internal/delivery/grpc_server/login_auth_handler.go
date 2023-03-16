@@ -21,7 +21,7 @@ func LoginAuthHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB) {
 	//register grpc service
 	authpb.RegisterLoginAuthServiceServer(s, &server{
 		authUC:     uc,
-		jwtService: jwtS.NewJWTService(),
+		jwtService: jwtS.NewJWTService(cfg.JWTSecret),
 		cfg:        cfg,
 	})
 }
