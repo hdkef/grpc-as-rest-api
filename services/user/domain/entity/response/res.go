@@ -9,6 +9,7 @@ func MapToGetAllResponse(u []entity.User) (*userpb.GetAllUserResponse, error) {
 	var data []*userpb.User
 	for _, v := range u {
 		data = append(data, &userpb.User{
+			Id:      v.ID,
 			Email:   v.Email,
 			Address: v.Address,
 			Name:    v.Name,
