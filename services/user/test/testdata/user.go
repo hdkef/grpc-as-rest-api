@@ -17,6 +17,12 @@ func NewUserEntity() *entity.User {
 	}
 }
 
+func NewDeleteUserRequest() *userpb.DeleteUserRequest {
+	return &userpb.DeleteUserRequest{
+		UserId: faker.UUIDDigit(),
+	}
+}
+
 func NewCreateUserRequestFull() *userpb.CreateUserRequest {
 	return &userpb.CreateUserRequest{
 		Name:     faker.Name(),
@@ -47,5 +53,45 @@ func NewCreateUserRequestNoAddress() *userpb.CreateUserRequest {
 func NewCreateUserRequestNoPassword() *userpb.CreateUserRequest {
 	v := NewCreateUserRequestFull()
 	v.Password = ""
+	return v
+}
+
+func NewUpdateUserRequestFull() *userpb.UpdateUserRequest {
+	return &userpb.UpdateUserRequest{
+		UserId:   faker.UUIDDigit(),
+		Name:     faker.Name(),
+		Email:    faker.Email(),
+		Address:  faker.Word(),
+		Password: faker.Password(),
+	}
+}
+
+func NewUpdateUserRequestNoName() *userpb.UpdateUserRequest {
+	v := NewUpdateUserRequestFull()
+	v.Name = ""
+	return v
+}
+
+func NewUpdateUserRequestNoEmail() *userpb.UpdateUserRequest {
+	v := NewUpdateUserRequestFull()
+	v.Email = ""
+	return v
+}
+
+func NewUpdateUserRequestNoAddress() *userpb.UpdateUserRequest {
+	v := NewUpdateUserRequestFull()
+	v.Address = ""
+	return v
+}
+
+func NewUpdateUserRequestNoPassword() *userpb.UpdateUserRequest {
+	v := NewUpdateUserRequestFull()
+	v.Password = ""
+	return v
+}
+
+func NewUpdateUserRequestNoUserId() *userpb.UpdateUserRequest {
+	v := NewUpdateUserRequestFull()
+	v.UserId = ""
 	return v
 }
