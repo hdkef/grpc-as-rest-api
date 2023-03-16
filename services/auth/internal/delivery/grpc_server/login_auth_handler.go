@@ -23,5 +23,6 @@ func LoginAuthHandler(s *grpc.Server, cfg *config.AppConfig, sql *sql.DB) {
 		authUC:     uc,
 		jwtService: jwtS.NewJWTService(cfg.JWTSecret),
 		cfg:        cfg,
+		bcrypt:     usecase.NewBcrypt(),
 	})
 }

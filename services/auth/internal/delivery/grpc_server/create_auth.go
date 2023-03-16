@@ -6,7 +6,6 @@ import (
 	"grpcrest/services/auth/internal/delivery/request"
 
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func (s *server) CreateAuth(ctx context.Context, auth *authpb.CreateAuthRequest) (*authpb.CreateAuthResponse, error) {
@@ -22,7 +21,7 @@ func (s *server) CreateAuth(ctx context.Context, auth *authpb.CreateAuthRequest)
 		}, err
 	}
 	//hash password
-	hashed, err := bcrypt.GenerateFromPassword([]byte(d.Password), 10)
+	hashed, err := s.bcrypt.GenerateFromPassword([]byte(d.Password), 10)
 	if err != nil {
 		return &authpb.CreateAuthResponse{
 			Message: err.Error(),

@@ -6,8 +6,6 @@ import (
 	authpb "grpcrest/proto/_generated/auth"
 	"grpcrest/services/auth/internal/delivery/request"
 	"grpcrest/services/auth/internal/delivery/response"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -31,7 +29,7 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 	}
 
 	//compare hash and password
-	err = bcrypt.CompareHashAndPassword([]byte(pass), []byte(d.Password))
+	err = s.bcrypt.CompareHashAndPassword([]byte(pass), []byte(d.Password))
 	if err != nil {
 		return &authpb.LoginAuthResponse{
 			Message: errIncorrectPassword,
@@ -41,8 +39,8 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 	tokenstr, err := s.jwtService.GenerateToken(userId)
 	if err != nil {
 		return &authpb.LoginAuthResponse{
-			Message: errIncorrectPassword,
-		}, errors.New(errIncorrectPassword)
+			Message: err.Error(),
+		}, err
 	}
 
 	return response.MapToLoginResponse(tokenstr)
