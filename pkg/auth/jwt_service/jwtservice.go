@@ -9,16 +9,17 @@ import (
 )
 
 type JWTService struct {
+	SECRET string
 }
 
 // GenerateToken implements JWTService_
-func (*JWTService) GenerateToken(userId string, secret string) (string, error) {
+func (u *JWTService) GenerateToken(userId string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"exp":    time.Now().UTC().Add(1 * 24 * time.Hour).Unix(),
 		"userId": userId,
 	})
 
-	tokenString, err := token.SignedString([]byte(secret))
+	tokenString, err := token.SignedString([]byte(u.SECRET))
 	if err != nil {
 		return "", err
 	}
@@ -26,13 +27,13 @@ func (*JWTService) GenerateToken(userId string, secret string) (string, error) {
 }
 
 // ParseToken implements JWTService_
-func (*JWTService) ParseToken(tokenString string, secret string) (string, error) {
+func (u *JWTService) ParseToken(tokenString string) (string, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(secret), nil
+		return []byte(u.SECRET), nil
 	})
 
 	if err != nil {
@@ -48,10 +49,12 @@ func (*JWTService) ParseToken(tokenString string, secret string) (string, error)
 }
 
 type JWTService_ interface {
-	GenerateToken(userId string, secret string) (string, error)
-	ParseToken(tokenString string, secret string) (string, error)
+	GenerateToken(userId string) (string, error)
+	ParseToken(tokenString string) (string, error)
 }
 
-func NewJWTService() JWTService_ {
-	return &JWTService{}
+func NewJWTService(secret string) JWTService_ {
+	return &JWTService{
+		SECRET: secret,
+	}
 }

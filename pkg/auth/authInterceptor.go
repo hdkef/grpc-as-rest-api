@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-func AuthInterceptor(methods []string, jwt jwtS.JWTService_, secret string) grpc.UnaryServerInterceptor {
+func AuthInterceptor(methods []string, jwt jwtS.JWTService_) grpc.UnaryServerInterceptor {
 	return func(
 		ctx context.Context,
 		req interface{},
@@ -32,7 +32,7 @@ func AuthInterceptor(methods []string, jwt jwtS.JWTService_, secret string) grpc
 
 				tokenBearer := tokenSlice[0]
 				token := tokenBearer[7:]
-				userId, err := jwt.ParseToken(token, secret)
+				userId, err := jwt.ParseToken(token)
 				if err != nil {
 					return "", errors.New("token failed or expired")
 				}
