@@ -3,7 +3,6 @@ package grpcserver
 import (
 	"context"
 	"errors"
-	"fmt"
 	authpb "grpcrest/proto/_generated/auth"
 	"grpcrest/services/auth/domain/entity/request"
 	"grpcrest/services/auth/domain/entity/response"
@@ -46,5 +45,5 @@ func (s *server) LoginAuth(ctx context.Context, auth *authpb.LoginAuthRequest) (
 		}, errors.New(errIncorrectPassword)
 	}
 
-	return response.MapToLoginResponse(fmt.Sprintf("Bearer%s", tokenstr))
+	return response.MapToLoginResponse(tokenstr)
 }
