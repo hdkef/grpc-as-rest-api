@@ -1,4 +1,4 @@
-package tesdata
+package testdata
 
 import (
 	"grpcrest/services/user/domain/entity"
@@ -6,8 +6,8 @@ import (
 	"github.com/bxcodec/faker/v4"
 )
 
-func NewUserEntity() entity.User {
-	return entity.User{
+func NewUserEntity() *entity.User {
+	return &entity.User{
 		ID:       faker.UUIDDigit(),
 		Name:     faker.Name(),
 		Email:    faker.Email(),
