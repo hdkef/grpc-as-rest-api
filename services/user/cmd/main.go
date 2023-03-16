@@ -41,8 +41,8 @@ func main() {
 
 	// var opts []grpc.ServerOption
 	var methods []string = []string{"/DeleteUserService/DeleteUser", "/UpdateUserService/UpdateUser"}
-	jwt := jwtS.NewJWTService()
-	s := grpc.NewServer(grpc.UnaryInterceptor(ai.AuthInterceptor(methods, jwt, cfg.JWTSecret)))
+	jwt := jwtS.NewJWTService(cfg.JWTSecret)
+	s := grpc.NewServer(grpc.UnaryInterceptor(ai.AuthInterceptor(methods, jwt)))
 
 	//register grpc server
 	grpcserver.CreateUserHandler(s, cfg, db, *authClient)
