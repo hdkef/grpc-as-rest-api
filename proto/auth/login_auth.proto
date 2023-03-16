@@ -17,7 +17,7 @@ message LoginAuthResponse {
 service LoginAuthService {
     rpc LoginAuth(LoginAuthRequest) returns (LoginAuthResponse){
         option (google.api.http) = {
-            post: "/v1/login"
+            post: "/v1/auth/login"
             body: "*"
         };
     };
