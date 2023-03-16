@@ -1,8 +1,14 @@
 package usecase
 
-import "grpcrest/services/user/domain/entity"
+import (
+	"errors"
+	"grpcrest/services/user/domain/entity"
+)
 
 // GetAll implements usecase.UserUsecase
-func (u *UserArtifact) GetAll(lastID *int, limit *int) ([]entity.User, error) {
-	return u.userrepo.GetAll(lastID, limit)
+func (u *UserArtifact) GetAll(page *int, limit *int) ([]entity.User, error) {
+	if *page <= 0 || *limit <= 0 {
+		return nil, errors.New("limit or page query params is invalid")
+	}
+	return u.userrepo.GetAll(page, limit)
 }
